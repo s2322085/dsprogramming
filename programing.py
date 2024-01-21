@@ -21,3 +21,23 @@ for row in rows:
 
 for date, temperature in data:
     print(f"{date}: {temperature}:")
+
+db_name = 'weather.sqlite'
+
+con = sqlite3.connect(db_name)
+cur = con.cursor()
+
+cur.execute('''CREATE TABLE IF NOT EXISTS weathers(
+                date TEXT,
+                temperature REAL
+                )''')
+
+sql_insert = '''INSERT INTO weathers(
+                date, temperature)
+                VALUES (?, ?)'''
+
+cur.executemany(sql_insert, data)
+
+con.commit()
+
+con.close()
